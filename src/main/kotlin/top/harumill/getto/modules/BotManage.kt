@@ -1,5 +1,6 @@
 package top.harumill.getto.modules
 
+import kotlinx.coroutines.delay
 import net.mamoe.mirai.contact.Group
 import net.mamoe.mirai.contact.getMember
 import net.mamoe.mirai.contact.getMemberOrFail
@@ -156,10 +157,6 @@ class BotManage(
                         subject.sendMessage("已删除$cnt 位好友")
                     }
                 }
-                startsWith("公告") { ann ->
-                    Getto.announcement = ann
-                    subject.sendMessage("已修改公告为${Getto.announcement}")
-                }
                 "status" {
                     val duration = Duration.between(startTime, LocalDateTime.now())
                     subject.sendMessage(
@@ -241,14 +238,6 @@ class BotManage(
         }
 
         /**
-         * bot被踢出群事件
-         */
-        gettoEventChannel.subscribeAlways<BotLeaveEvent.Kick> {
-            bot.getFriendOrFail(Getto.info.administrator)
-                .sendMessage("被${operator.nick}(${operator.id})踢出群${group.name}(${group.id})")
-        }
-
-        /**
          * 邀请入群事件
          * 若 (自动加群开关)[autoAddGroup] 开启，则自动接受请求
          * 否则需管理员私聊发送“ok”接受请求
@@ -268,7 +257,14 @@ class BotManage(
         gettoEventChannel.subscribeAlways<BotJoinGroupEvent.Invite> {
             bot.getFriendOrFail(Getto.info.administrator)
                 .sendMessage("接受${invitor.nick}(${invitor.id})邀请已加入群${group.name}(${group.id})")
-            group.sendMessage("月斗已加入群聊，请输入#help获取最新指令功能表")
+            if (autoAddGroup){
+                group.sendMessage("月斗已加入群聊，请输入#help获取最新指令功能表")
+            }
+            else{
+                group.sendMessage("暂时不接受邀请入群，由于腾迅机制自动入群，即将退群")
+                delay(1000)
+                group.quit()
+            }
         }
 
     }

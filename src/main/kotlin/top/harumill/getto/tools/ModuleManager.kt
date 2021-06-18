@@ -10,14 +10,15 @@ object ModuleManager : Mod() {
         SendPic(),
         Chat(),
         GroupManage(),
-//        Repeat(),
         BotManage(),
         Sign(),
-//        Recall(),
         DragonBot(),
         SearchMusic(),
+        Announcement()
+//        Repeat(),
+//        Recall(),
 //        FlashCollect()
-//        GettoLog()
+//        GettoLog(),
     )
 
     override val name: String = "ModuleManager"

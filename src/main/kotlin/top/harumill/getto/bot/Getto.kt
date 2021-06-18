@@ -25,6 +25,12 @@ object Getto {
     lateinit var bot: Bot
     private lateinit var start: LocalDateTime
     var reloginTime = 5*60L
+
+    /**
+     * 公告
+     * get：获取data/announcement.txt里内容
+     * set：覆写data/announcement.txt里内容
+     */
     var announcement: String
         get() {
             val announcementFile = File("data/announcement.txt")
