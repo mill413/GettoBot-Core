@@ -3,7 +3,8 @@ package top.harumill.getto.modules
 import kotlinx.coroutines.delay
 import net.mamoe.mirai.event.subscribeGroupMessages
 import net.mamoe.mirai.message.data.At
- 
+import top.harumill.getto.bot.Getto
+
 import top.harumill.getto.tools.GettoDB
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -16,7 +17,7 @@ class Sign(
         gettoEventChannel.subscribeGroupMessages {
 
             "签到" reply {
-                delay(2000)
+                delay(Getto.delayTime)
                 At(sender) + sign(sender.id)
             }
         }

@@ -20,14 +20,10 @@ class SearchMusic(
 
         val resp = URL(url).readText()
 
-//        println(resp)
-
         val res = Json {
             coerceInputValues = true
             ignoreUnknownKeys = true
         }.decodeFromString<GettoMusic>(resp)
-
-//            println("${res.result.songs[0].id} ${res.result.songs[0].name} ${res.result.songs[0].ar[0].name}")
 
         if (res.result.songs.isNullOrEmpty()) {
             return null

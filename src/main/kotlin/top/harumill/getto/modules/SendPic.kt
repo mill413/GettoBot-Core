@@ -6,6 +6,7 @@ import net.mamoe.mirai.event.subscribeGroupMessages
 import net.mamoe.mirai.message.data.At
 import net.mamoe.mirai.message.data.PlainText
 import net.mamoe.mirai.utils.ExternalResource.Companion.toExternalResource
+import net.mamoe.mirai.utils.ExternalResource.Companion.uploadAsImage
 import net.mamoe.mirai.utils.ExternalResource.Companion.uploadAsVoice
 import top.harumill.getto.bot.Getto
  
@@ -56,16 +57,6 @@ class SendPic(
                             )
                         )
                     }
-//                    "头像" -> {
-//                        group.sendMessage("该功能暂时下线")
-////                        val ava = Getto.Utils.downloadFile(
-////                            url = bot.groups.random().members.random().avatarUrl,
-////                            fileName = "tmp",
-////                            path = Dir.img
-////                        )
-////                        group.sendImage(ava)
-////                        ava.deleteRecursively()
-//                    }
                 }
             }
             startsWith("#") {
@@ -94,11 +85,8 @@ class SendPic(
                                     if (fileName !in files) {
                                         group.sendMessage("没有你要找的")
                                     } else {
-                                        group.sendImage(
-                                            File(
-                                                Dir.pcrComic + fileName
-                                            )
-                                        )
+                                        val img = group.uploadImage(File(Dir.pcrComic + fileName).toExternalResource())
+                                        group.sendMessage(PlainText("episode_${args[2]}")+img)
                                     }
                                 }
                             }
@@ -115,25 +103,17 @@ class SendPic(
                                 if (fileName !in files) {
                                     group.sendMessage("没有你要找的")
                                 } else {
-                                    group.sendImage(
-                                        File(
-                                            Dir.pcrStamp + fileName
-                                        )
-                                    )
+                                    val img = File(Dir.pcrStamp + fileName).uploadAsImage(group)
+                                    group.sendMessage(PlainText(args[2])+img)
                                 }
                             }
                             "card" -> {
-                                group.sendMessage(At(sender) + PlainText("图片较大，请稍等"))
                                 files = Getto.Utils.getImgList(
                                     Dir.pcrCard
                                 )
-                                group.sendMessage(
-                                    At(sender) + group.uploadImage(
-                                        File(
-                                            Dir.pcrCard + files.random()
-                                        ).toExternalResource()
-                                    )
-                                )
+                                val card = File(Dir.pcrCard + files.random())
+                                val img = card.uploadAsImage(group)
+                                group.sendMessage(PlainText(card.name.removeSuffix(".png")) + img)
                             }
                             "gacha" -> {
                                 when (args[2]) {

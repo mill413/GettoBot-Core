@@ -2,7 +2,7 @@ package top.harumill.getto.modules
 
 import net.mamoe.mirai.event.EventChannel
 import net.mamoe.mirai.event.events.BotEvent
-import net.mamoe.mirai.event.events.FriendMessageEvent
+import net.mamoe.mirai.event.events.MessageEvent
 import net.mamoe.mirai.event.subscribeMessages
 import top.harumill.getto.bot.Getto
 import java.time.LocalDateTime
@@ -45,22 +45,24 @@ abstract class Mod {
 
     private suspend fun control(){
         gettoEventChannel.filter {
-            it is FriendMessageEvent && it.friend.id == Getto.info.administrator
+            it is MessageEvent && it.sender.id == Getto.info.administrator
         }
             .subscribeMessages {
                 startsWith(name) { arg ->
                     when (arg) {
                         "on" -> {
                             switch = true
-                            bot.getFriendOrFail(Getto.info.administrator).sendMessage("${name}模块开启")
+                            subject.sendMessage("${name}模块开启")
                         }
                         "off" -> {
                             switch = false
-                            bot.getFriendOrFail(Getto.info.administrator).sendMessage("${name}模块关闭")
+                            subject.sendMessage("${name}模块关闭")
                         }
                         "check" -> {
-                            bot.getFriendOrFail(Getto.info.administrator)
-                                .sendMessage("${name}模块已${if (switch) "开启" else "关闭"}")
+                            subject.sendMessage("${name}模块已${if (switch) "开启" else "关闭"}")
+                        }
+                        "des" -> {
+                            subject.sendMessage("${name}模块描述:\n${description}")
                         }
                         else -> {
                             bot.getFriendOrFail(Getto.info.administrator).sendMessage("参数错误")

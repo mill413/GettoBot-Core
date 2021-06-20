@@ -53,6 +53,8 @@ object Getto {
     private const val updateStatusTime = 30L
     val statusLogFile = File("logs/status.log")
 
+    var delayTime:Long = 2000
+
     init {
         var infoString = ""
         File("data/jsons/botInfo.json").readLines().forEach {

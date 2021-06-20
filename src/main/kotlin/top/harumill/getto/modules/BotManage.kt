@@ -169,7 +169,8 @@ class BotManage(
                                 "已运行时间:${duration.toDaysPart()}天${duration.toHoursPart()}小时${duration.toMinutesPart()}分钟${duration.toSecondsPart()}秒\n" +
                                 "掉线重启间隔:${Getto.reloginTime}s\n" +
                                 "自动加好友:${if (autoAddFriend) "开启" else "关闭"}\n" +
-                                "自动加群:${if (autoAddGroup) "开启" else "关闭"}"
+                                "自动加群:${if (autoAddGroup) "开启" else "关闭"}\n"+
+                                "消息延迟:${Getto.delayTime}ms"
                     )
                 }
                 "群列表" {
@@ -179,6 +180,7 @@ class BotManage(
                     bot.groups.forEach {
                         groupListInfo += "${it.name}(${it.id})\n"
                     }
+                    // TODO-分割字符串
                     Getto.sendToAdministrator(groupListInfo)
                 }
                 "好友列表" {
@@ -196,7 +198,6 @@ class BotManage(
                         modListInfo += "模块${it.name}:${it.description} ${if (it.switch) "on" else "off"}\n"
                     }
                     subject.sendMessage(modListInfo)
-//                    Getto.sendToAdministrator(modListInfo)
                 }
                 "字体列表" {
                     val fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().availableFontFamilyNames
@@ -247,7 +248,7 @@ class BotManage(
                 accept()
             }
             else {
-                invitor?.sendMessage("暂时不接受邀请入群哦，请等待作者手动同意")
+                invitor?.sendMessage("暂时不接受邀请入群哦")
             }
         }
 
@@ -255,13 +256,12 @@ class BotManage(
          * bot受邀入群事件
          */
         gettoEventChannel.subscribeAlways<BotJoinGroupEvent.Invite> {
-            bot.getFriendOrFail(Getto.info.administrator)
-                .sendMessage("接受${invitor.nick}(${invitor.id})邀请已加入群${group.name}(${group.id})")
+            Getto.sendToAdministrator("接受${invitor.nick}(${invitor.id})邀请已加入群${group.name}(${group.id})")
             if (autoAddGroup){
                 group.sendMessage("月斗已加入群聊，请输入#help获取最新指令功能表")
             }
             else{
-                group.sendMessage("暂时不接受邀请入群，由于腾迅机制自动入群，即将退群")
+                group.sendMessage("暂时不接受邀请入群，由于tx机制自动入群，即将退群")
                 delay(1000)
                 group.quit()
             }

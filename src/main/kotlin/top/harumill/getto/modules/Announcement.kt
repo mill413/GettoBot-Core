@@ -4,11 +4,10 @@ import net.mamoe.mirai.event.events.MessageEvent
 import net.mamoe.mirai.event.subscribeMessages
 import top.harumill.getto.bot.Getto
 
-class Announcement:Mod() {
-    override val name: String
-        get() = "公告"
-    override val description: String
-        get() = ""
+class Announcement(
+    override val name: String = "公告",
+    override val description: String = ""
+):Mod() {
 
     override suspend fun onEnable() {
         gettoEventChannel.filter { it is MessageEvent && it.sender.id == Getto.info.administrator }
