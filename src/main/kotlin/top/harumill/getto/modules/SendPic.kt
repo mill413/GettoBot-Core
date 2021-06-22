@@ -2,14 +2,15 @@ package top.harumill.getto.modules
 
 import kotlinx.coroutines.delay
 import net.mamoe.mirai.contact.Contact.Companion.sendImage
+import net.mamoe.mirai.event.events.GroupMessageEvent
 import net.mamoe.mirai.event.subscribeGroupMessages
 import net.mamoe.mirai.message.data.At
+import net.mamoe.mirai.message.data.Image
 import net.mamoe.mirai.message.data.PlainText
 import net.mamoe.mirai.utils.ExternalResource.Companion.toExternalResource
 import net.mamoe.mirai.utils.ExternalResource.Companion.uploadAsImage
 import net.mamoe.mirai.utils.ExternalResource.Companion.uploadAsVoice
 import top.harumill.getto.bot.Getto
- 
 import top.harumill.getto.data.Dir
 import java.io.File
 
@@ -25,9 +26,7 @@ class SendPic(
                 delay(2000)
                 when (target) {
                     "猫猫" -> {
-                        files = Getto.Utils.getImgList(
-                            Dir.cats
-                        )
+                        files = Getto.Utils.getImgList(Dir.cats)
                         val cat = files.random()
                         if (cat.startsWith("dog")) {
                             group.sendMessage(
@@ -47,14 +46,10 @@ class SendPic(
                         }
                     }
                     "傻狗" -> {
-                        files = Getto.Utils.getImgList(
-                            Dir.sbDog
-                        )
+                        files = Getto.Utils.getImgList(Dir.sbDog)
                         val dog = files.random()
                         group.sendImage(
-                            File(
-                                Dir.sbDog + dog
-                            )
+                            File(Dir.sbDog + dog)
                         )
                     }
                 }
@@ -151,6 +146,8 @@ class SendPic(
                                 files = Getto.Utils.getImgList(
                                     Dir.bang
                                 )
+                                val msg = PlainText("")+ Image("")
+                                msg.toString()
                                 group.sendMessage(
                                     At(sender) + group.uploadImage(
                                         File(
@@ -166,6 +163,13 @@ class SendPic(
             "悄悄看" {
                 files = Getto.Utils.getImgList(Dir.look)
                 group.sendImage(File(Dir.look + files.random()))
+            }
+        }
+        gettoEventChannel.subscribeAlways<GroupMessageEvent> {
+            if ((0..10000).random()<3){
+                files = Getto.Utils.getImgList(Dir.random)
+                val random = files.random()
+                group.sendImage(File(Dir.random+random))
             }
         }
     }

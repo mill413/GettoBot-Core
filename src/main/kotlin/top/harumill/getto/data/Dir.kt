@@ -15,5 +15,6 @@ object Dir {
     const val setu = "${img}setu/"
     const val noSetu = "${img}setu/no/"
     const val bang = "${img}bang_bg/"
+    const val random = "${img}random/"
     const val voice = "${data}voice/"
 }
