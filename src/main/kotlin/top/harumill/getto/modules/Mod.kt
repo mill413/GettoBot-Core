@@ -65,7 +65,7 @@ abstract class Mod {
                             subject.sendMessage("${name}模块描述:\n${description}")
                         }
                         else -> {
-                            bot.getFriendOrFail(Getto.info.administrator).sendMessage("参数错误")
+//                            bot.getFriendOrFail(Getto.info.administrator).sendMessage("参数错误")
                         }
                     }
                 }

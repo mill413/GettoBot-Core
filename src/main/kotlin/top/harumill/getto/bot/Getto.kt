@@ -91,12 +91,15 @@ object Getto {
         ModuleManager.load()
 
         val login = LocalDateTime.now()
-        sendToAdministrator(
-            "${
-                formatter.format(login)
-            } ${bot.nick}(${bot.id})" +
-                    " 登录成功" + " 开机用时${Duration.between(start, login).toMillis().toDouble() / 1000}s"
-        )
+        if (info.loginTip){
+            sendToAdministrator(
+                "${
+                    formatter.format(login)
+                } ${bot.nick}(${bot.id})" +
+                        " 登录成功" + " 开机用时${Duration.between(start, login).toMillis().toDouble() / 1000}s"
+            )
+        }
+
 
         info.lastlogin = formatter.format(login)
 

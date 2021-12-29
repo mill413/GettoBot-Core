@@ -13,5 +13,6 @@ data class BotInfo(
     val botLog:String,
     var lastlogin:String,
     var autoAddFriend:Boolean,
-    var autoAddGroup:Boolean
+    var autoAddGroup:Boolean,
+    var loginTip:Boolean
 )

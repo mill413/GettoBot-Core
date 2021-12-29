@@ -14,5 +14,6 @@ fun main(){
         val text = "${LocalDateTime.now()} runBlocking break up.\n"
         println(text)
         Getto.statusLogFile.appendText(text)
+
     }
 }

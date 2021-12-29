@@ -33,10 +33,12 @@ dependencies {
     api("net.mamoe", "mirai-core", miraiVersion)
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.32")
     implementation("org.xerial", "sqlite-jdbc", "3.8.11.2")
+
 }
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions {
+    freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
     jvmTarget = "1.8"
 }
 
