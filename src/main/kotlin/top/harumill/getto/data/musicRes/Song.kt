@@ -1,46 +1,21 @@
 package top.harumill.getto.data.musicRes
 
+import kotlinx.serialization.Required
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Song(
-//    val a: Any,
-    val al: Al,
-//    val alia: List<Any>,
-    val ar: List<Ar>,
-    val cd: String,
-    val cf: String,
-    val copyright: Long,
-    val cp: Long,
-//    val crbt: Any,
-    val djId: Long,
-    val dt: Long,
-    val fee: Long,
-    val ftype: Long,
-    val h: H? = null,
+    @SerialName("al")
+    @Required
+    val album: Album,
+    @SerialName("ar")
+    @Required
+    val artists: List<Artist>,
+    @Required
     val id: Long,
-    val l: L? = null,
-    val m: M? = null,
-    val mark: Long,
-    val mst: Long,
-    val mv: Long,
+    @Required
     val name: String,
-    val no: Long,
-//    val noCopyrightRcmd: Any,
-    val originCoverType: Long,
-//    val originSongSimpleData: Any,
-    val pop: Long,
-    val privilege: Privilege,
-    val pst: Long,
-    val publishTime: Long,
-    val rt: String? = null,
-//    val rtUrl: Any,
-//    val rtUrls: List<Any>,
-    val rtype: Long,
-//    val rurl: Any,
-    val s_id: Long,
-    val single: Long,
-    val st: Long,
-    val t: Long,
-    val v: Long
+    val publishTime: Long
+
 )
