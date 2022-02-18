@@ -1,5 +1,10 @@
 package top.harumill.getto.tools
 
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
+import io.ktor.client.request.*
 import io.ktor.utils.io.charsets.*
 import java.net.URL
 import java.nio.charset.Charset
@@ -44,14 +49,15 @@ fun trustAllHosts() {
     )
     try {
         val sc = SSLContext.getInstance("TLS")
-        sc.init(null, trustAllCerts, java.security.SecureRandom());
-        HttpsURLConnection.setDefaultSSLSocketFactory(sc.socketFactory);
+        sc.init(null, trustAllCerts, java.security.SecureRandom())
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.socketFactory)
     } catch (e: Exception) {
-        e.printStackTrace();
+        e.printStackTrace()
     }
 }
 
-fun getResp(url: URL, charset: Charset = Charsets.UTF_8): String {
+
+fun getRespByURL(url: URL, charset: Charset = Charsets.UTF_8): String {
     trustAllHosts()
     val conn =
         if (url.protocol.lowercase() == "https") {
@@ -61,4 +67,37 @@ fun getResp(url: URL, charset: Charset = Charsets.UTF_8): String {
         } else url.openConnection()
 
     return conn.getInputStream().readBytes().toString(charset)
+}
+
+/**
+ * 向api发送get请求，获取返回的JSON数据并解析
+ * 使用Ktor提供的[HttpClient]，解析后会立即关闭
+ *
+ * @param url api的url
+ * @param block
+ *
+ * @return 返回解析的数据
+ */
+suspend inline fun <reified T> getJsonRespFromApi(url: String, block: HttpRequestBuilder.() -> Unit = {}) =
+    HttpClient(CIO) {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer(JSONParser)
+        }
+    }.use {
+        it.get<T>(url, block)
+    }
+
+suspend inline fun <reified T> getJsonRespFromApi(
+    protocol: String = "https",
+    hostname: String,
+    port: Int = 80,
+    path: String = "/",
+    parameters: List<Pair<String, String>> = listOf(),
+    block: HttpRequestBuilder.() -> Unit = {}
+) = HttpClient(CIO) {
+    install(JsonFeature) {
+        serializer = KotlinxSerializer(JSONParser)
+    }
+}.use {
+    it.get<T>(buildURL(protocol, hostname, port, path, parameters), block)
 }

@@ -41,6 +41,7 @@ object GettoBot {
         }
 
     suspend fun start() = coroutineScope {
+//        bot.otherClients.forEach { println(it.deviceName) }
         launch {
             GettoLogger.onEnable()
         }
@@ -48,7 +49,6 @@ object GettoBot {
         launch {
             GettoFunctionManager.onEnable()
         }
-
 
         bot.login()
         bot.eventChannel.subscribeAlways<BotEvent> { botEvent ->

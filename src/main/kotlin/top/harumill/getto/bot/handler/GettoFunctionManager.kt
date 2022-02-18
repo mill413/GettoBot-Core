@@ -30,7 +30,7 @@ object GettoFunctionManager {
 
         functions.forEach { className ->
             try {
-                initObject("top.harumill.getto.function.${className}")
+                initObject("top.harumill.getto.function.functions.${className}")
             } catch (e: ClassNotFoundException) {
                 GettoLogger.log(
                     Priority.ERROR,

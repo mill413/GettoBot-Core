@@ -1,4 +1,4 @@
-package top.harumill.getto.function
+package top.harumill.getto.function.functions
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
@@ -13,6 +13,7 @@ import top.harumill.getto.bot.logger.Output
 import top.harumill.getto.bot.logger.Priority
 import top.harumill.getto.data.musicRes.GettoMusic
 import top.harumill.getto.data.musicRes.MusicInfo
+import top.harumill.getto.function.Command
 import java.net.URL
 import java.net.URLEncoder
 

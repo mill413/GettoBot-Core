@@ -13,7 +13,7 @@ application {
 }
 
 group = "top.harumill"
-version = "1.0"
+version = "1.1"
 
 repositories {
     maven { url = uri("https://mirrors.huaweicloud.com/repository/maven") }

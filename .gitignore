@@ -1,11 +1,6 @@
-/src/main/kotlin/top/harumill/getto/modules/Chat.kt
-/src/main/kotlin/top/harumill/getto/modules/EroPic.kt
-/src/main/kotlin/top/harumill/getto/modules/FlashCollect.kt
-/src/main/kotlin/top/harumill/getto/modules/DragonBot.kt
-/src/main/kotlin/top/harumill/getto/dragon/
 /logs/
-/src/test/kotlin/Subtest.kt
-/src/test/kotlin/TestMain.kt
 /device.json
 /cache/
 /data/
+
+/src/main/kotlin/TestMain.kt

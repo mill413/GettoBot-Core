@@ -2,11 +2,16 @@ package top.harumill.getto.bot.handler
 
 import net.mamoe.mirai.event.events.MessageEvent
 import net.mamoe.mirai.message.data.content
+import top.harumill.getto.bot.handler.GettoCommandManager.NameToCommand
 import top.harumill.getto.bot.logger.GettoLogger
 import top.harumill.getto.bot.logger.Priority
 import top.harumill.getto.function.Command
 import top.harumill.getto.tools.getObjectByName
 
+/**
+ * CommandManager负责监听消息事件并解析消息内容，若消息为Command则将参数传递给对应的Command
+ * @property NameToCommand 指令名与指令的映射，指令名为配置文件中"commandName"的值
+ */
 object GettoCommandManager {
     private val NameToCommand = mutableMapOf<String, Command>()
 
@@ -23,7 +28,7 @@ object GettoCommandManager {
             }
             if (config.commandName.isNotBlank() && config.commandName.isNotEmpty()) {
                 NameToCommand["${if (config.prefixEnable) prefix else ""}${config.commandName}"] =
-                    getObjectByName("top.harumill.getto.function.$function") as Command
+                    getObjectByName("top.harumill.getto.function.functions.$function") as Command
             }
         }
     }

@@ -1,20 +1,21 @@
-package top.harumill.getto.function
+package top.harumill.getto.function.functions
 
 import net.mamoe.mirai.contact.Contact
 import net.mamoe.mirai.contact.User
 import top.harumill.getto.data.cf.CFContestList
 import top.harumill.getto.data.cf.Contest
 import top.harumill.getto.data.cf.ContestPhase
+import top.harumill.getto.function.Command
 import top.harumill.getto.tools.buildURL
 import top.harumill.getto.tools.decodeFromJSONStr
-import top.harumill.getto.tools.getResp
+import top.harumill.getto.tools.getRespByURL
 import top.harumill.getto.tools.timeStampToDateTime
 import kotlin.math.min
 
 object CodeForces : Command() {
 
     private fun getContestList(): MutableList<Contest> {
-        val resp = getResp(
+        val resp = getRespByURL(
             buildURL(
                 hostname = "codeforces.com",
                 path = "/api/contest.list",
@@ -51,4 +52,6 @@ object CodeForces : Command() {
             contact.sendMessage("请输入一个整数")
         }
     }
+
+
 }

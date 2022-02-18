@@ -1,8 +1,9 @@
-package top.harumill.getto.function
+package top.harumill.getto.function.functions
 
 import net.mamoe.mirai.event.Event
 import net.mamoe.mirai.event.events.GroupMessageEvent
 import net.mamoe.mirai.event.events.MessageEvent
+import top.harumill.getto.function.Function
 
 object Repeat : Function() {
     override suspend fun onAllEvent(event: Event) {
